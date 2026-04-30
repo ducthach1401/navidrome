@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    ports:
+      - "${NAVIDROME_PORT}:4533"
+    restart: unless-stopped
+    environment:
+      - ND_LOGLEVEL=info
+    volumes:
+      - ./music:/music:ro
+      - navidrome-data:/data
+
+volumes:
+  navidrome-data:
