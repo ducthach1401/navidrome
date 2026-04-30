@@ -11,6 +11,8 @@ services:
     volumes:
       - ./music:/music:ro
       - navidrome-data:/data
-
+    resources:
+      limits:
+        memory: 1G
 volumes:
   navidrome-data:
