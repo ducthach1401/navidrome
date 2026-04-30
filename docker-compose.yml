@@ -15,5 +15,23 @@ services:
       resources:
         limits:
           memory: 1G
+  ytdlp:
+    image: ghcr.io/yt-dlp/yt-dlp:latest
+    profiles: ["tools"]
+    volumes:
+      - ./music:/music
+    working_dir: /music
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["sleep infinity"]
+  metube:
+    image: ghcr.io/alexta69/metube:latest
+    ports:
+      - "${METUBE_PORT}:8081"
+    restart: unless-stopped
+    environment:
+      - OUTPUT_TEMPLATE=%(artist|Unknown Artist)s/%(album|Singles)s/%(title)s.%(ext)s
+      - YTDL_OPTIONS={"postprocessors":[{"key":"FFmpegExtractAudio","preferredcodec":"mp3","preferredquality":"0"}]}
+    volumes:
+      - ./music:/downloads
 volumes:
   navidrome-data:
